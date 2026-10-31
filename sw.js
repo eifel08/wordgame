@@ -1,5 +1,5 @@
 // Bump CACHE whenever any file in ASSETS changes, so installed apps pick up the new version.
-const CACHE = 'wordwall-v4';
+const CACHE = 'wordwall-v5';
 
 const ASSETS = [
   './',

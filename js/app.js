@@ -71,8 +71,8 @@ function renderDashboard() {
   };
 
   const fileInput = h('input', {
+    // No accept filter: phones may grey out a shared .txt backup, and importing checks the content.
     type: 'file',
-    accept: '.json,application/json',
     hidden: true,
     onChange: (event) => importBackup(event.target),
   });
@@ -134,22 +134,58 @@ function installBanner() {
   return banner;
 }
 
-async function exportBackup() {
-  const name = `wordgame-backup-${new Date().toISOString().slice(0, 10)}.json`;
-  const file = new File([store.exportJson()], name, { type: 'application/json' });
+const isMobileDevice = () => navigator.userAgentData?.mobile
+  || /android|iphone|ipad|ipod/i.test(navigator.userAgent)
+  || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  || matchMedia('(pointer: coarse)').matches;
 
-  // Blob downloads are unreliable in an installed iOS app, so phones use the share sheet.
-  if (matchMedia('(pointer: coarse)').matches && navigator.canShare?.({ files: [file] })) {
-    try {
-      await navigator.share({ files: [file] });
-    } catch (error) {
-      if (error.name !== 'AbortError') toast('הגיבוי נכשל', 'error');
-    }
-    return;
+// Returns 'shared', 'cancelled' or 'unavailable'; the last one means a download should be tried.
+async function shareBackup(json, baseName) {
+  // Android Chrome refuses to share .json files, so the same content is offered as .txt.
+  const file = [
+    new File([json], `${baseName}.json`, { type: 'application/json' }),
+    new File([json], `${baseName}.txt`, { type: 'text/plain' }),
+  ].find((candidate) => navigator.canShare?.({ files: [candidate] }));
+  if (!file) return 'unavailable';
+
+  try {
+    await navigator.share({ files: [file] });
+    return 'shared';
+  } catch (error) {
+    return error.name === 'AbortError' ? 'cancelled' : 'unavailable';
   }
-  const url = URL.createObjectURL(file);
-  h('a', { href: url, download: name }).click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function downloadBackup(json, baseName) {
+  try {
+    const url = URL.createObjectURL(new Blob([json], { type: 'application/json' }));
+    // Mobile browsers ignore clicks on a link outside the page, and read the file some time later.
+    const link = h('a', { href: url, download: `${baseName}.json`, hidden: true });
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function exportBackup() {
+  const json = store.exportJson();
+  const baseName = `wordgame-backup-${new Date().toISOString().slice(0, 10)}`;
+
+  // Downloads are unreliable in an installed iOS app, so phones start with the share sheet.
+  if (isMobileDevice()) {
+    const result = await shareBackup(json, baseName);
+    if (result === 'cancelled') return;
+    if (result === 'shared') {
+      toast('הגיבוי מוכן', 'success');
+      return;
+    }
+  }
+  if (downloadBackup(json, baseName)) toast('הורדת הגיבוי התחילה', 'success');
+  else toast('הגיבוי נכשל. כדאי לנסות בדפדפן אחר', 'error');
 }
 
 async function importBackup(input) {

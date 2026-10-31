@@ -31,7 +31,7 @@ Offline support and installation require HTTPS. Host this folder on any static h
 
 ## Data
 
-All data stays in the browser's LocalStorage under `wordwall.v1`. Clearing site data erases it, so use the backup and restore buttons on the home screen to move activities between devices.
+All data stays in the browser's LocalStorage under `wordwall.v1`. Clearing site data erases it, so use the backup and restore buttons on the home screen to move activities between devices. Phones back up through the share sheet (saved as `.txt` where the browser refuses to share `.json`) and fall back to a download; restore accepts either file.
 
 ## Releasing changes
 
