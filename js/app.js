@@ -1,3 +1,4 @@
+// מילימשחק (Wordgame). Created by Eitan Feldman.
 import * as store from './store.js';
 import { h, bdi, confirmDialog, formatTime, toast } from './ui.js';
 import * as matching from './games/matching.js';
@@ -6,6 +7,8 @@ import * as flashcards from './games/flashcards.js';
 import * as scramble from './games/scramble.js';
 import * as wheel from './games/wheel.js';
 import * as wordsearch from './games/wordsearch.js';
+
+const APP_NAME = 'מילימשחק';
 
 const GAMES = {
   matching: { ...matching, title: 'התאמת זוגות', icon: '🧩', description: 'משחק זיכרון של מושגים והגדרות' },
@@ -31,7 +34,7 @@ function runCleanups() {
 
 function setPage(title, backTo) {
   pageTitle.textContent = title;
-  document.title = backTo ? `${title} · קיר מילים` : 'קיר מילים';
+  document.title = backTo ? `${title} · ${APP_NAME}` : `${APP_NAME} · Wordgame`;
   backButton.hidden = !backTo;
   backButton.dataset.target = backTo || '';
 }
@@ -50,7 +53,7 @@ const withSaveErrors = (action) => {
 /* ---------- Dashboard ---------- */
 
 function renderDashboard() {
-  setPage('קיר מילים');
+  setPage(APP_NAME);
   const activities = store.listActivities();
   const list = h('div', { class: 'activity-list' });
 
@@ -132,7 +135,7 @@ function installBanner() {
 }
 
 async function exportBackup() {
-  const name = `wordwall-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  const name = `wordgame-backup-${new Date().toISOString().slice(0, 10)}.json`;
   const file = new File([store.exportJson()], name, { type: 'application/json' });
 
   // Blob downloads are unreliable in an installed iOS app, so phones use the share sheet.
@@ -270,7 +273,7 @@ function renderEditor(id) {
     type: 'text',
     dir: 'auto',
     maxlength: store.LIMITS.title,
-    placeholder: 'למשל: אוצר מילים לשיעור 3',
+    placeholder: id ? 'למשל: אוצר מילים לשיעור 3' : store.nextDefaultTitle(),
     value: initial.title,
   });
 
@@ -364,7 +367,7 @@ function renderEditor(id) {
   }
 
   function save() {
-    const title = titleInput.value.trim();
+    const title = titleInput.value.trim() || (id ? '' : store.nextDefaultTitle());
     const pairs = readRows().filter((pair) => pair.term || pair.definition);
     const problem = validate(title, pairs);
     errorBox.hidden = !problem;

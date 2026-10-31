@@ -1,5 +1,6 @@
 // Persistence layer. Everything lives in LocalStorage under a single versioned key.
 
+// The keys keep the app's original name, because renaming them would orphan saved activities.
 const KEY = 'wordwall.v1';
 const DRAFT_KEY = 'wordwall.draft';
 const CORRUPT_KEY = 'wordwall.corrupt';
@@ -65,6 +66,12 @@ export function reload() {
 export const listActivities = () => [...state.activities].sort((a, b) => b.updatedAt - a.updatedAt);
 export const getActivity = (id) => state.activities.find((activity) => activity.id === id);
 
+// Counts up from the highest existing number, so a default name is never repeated.
+export function nextDefaultTitle() {
+  const numbers = state.activities.map((activity) => Number(activity.title.match(/^פעילות (\d+)$/)?.[1] ?? 0));
+  return `פעילות ${Math.max(0, ...numbers) + 1}`;
+}
+
 export function saveActivity(id, title, pairs) {
   const existing = id && getActivity(id);
   if (existing) {
@@ -119,7 +126,7 @@ export function exportJson() {
     title,
     pairs: pairs.map(({ term, definition }) => ({ term, definition })),
   }));
-  return JSON.stringify({ app: 'wordwall', version: 1, activities }, null, 2);
+  return JSON.stringify({ app: 'wordgame', version: 1, activities }, null, 2);
 }
 
 const fingerprint = (title, pairs) => JSON.stringify([title, pairs.map((p) => [p.term, p.definition])]);

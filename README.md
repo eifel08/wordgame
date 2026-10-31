@@ -1,6 +1,6 @@
-# קיר מילים
+# מילימשחק (Wordgame)
 
-Offline-first Hebrew PWA for building vocabulary activities and playing them as games. Inspired by Wordwall; no build step and no dependencies.
+Offline-first Hebrew PWA for building vocabulary activities and playing them as games. Created by Eitan Feldman. Inspired by Wordwall; no build step and no dependencies.
 
 ## Games
 
@@ -11,7 +11,7 @@ Offline-first Hebrew PWA for building vocabulary activities and playing them as 
 | כרטיסיות (Flashcards) | Flip, swipe and mark what you know |
 | ערבוב אותיות (Word Scramble) | Rebuild the term from shuffled letters, with hints; keeps niqqud attached to its letter |
 | גלגל המזל (Wheel of Fortune) | Spin to draw a random term, recall the definition, then rate yourself (up to 12 terms per round) |
-| תפזורת (Word Search) | Drag across hidden terms, or tap both ends of a word (up to 8 words of 2–12 letters per round) |
+| תפזורת (Word Search) | Read each definition, then find its hidden term by dragging across it or tapping both ends (up to 8 words of 2–12 letters per round) |
 
 Every game has a results screen, per-activity best scores and a "practice my mistakes" round where it applies.
 

@@ -1,4 +1,4 @@
-// Word Search: find the terms hidden in a grid by dragging across them, or by tapping both ends.
+// Word Search: read each definition, then find its hidden term by dragging across it or tapping both ends.
 import { h, bdi, shuffle, textDir } from '../ui.js';
 
 const MIN_SIZE = 8;
@@ -94,8 +94,8 @@ export function run(ctx) {
     return cell;
   }));
 
-  const chips = new Map(placed.map((word) => [word, h('li', { class: 'search-chip' }, bdi(word.pair.term))]));
-  const list = h('ul', { class: 'search-list' }, [...chips.values()]);
+  const clues = new Map(placed.map((word) => [word, h('li', { class: 'search-clue' }, bdi(word.pair.definition))]));
+  const list = h('ul', { class: 'search-list' }, [...clues.values()]);
   const hintButton = h('button', { class: 'btn btn-ghost', type: 'button', onClick: hint }, 'רמז');
   const giveUpButton = h('button', { class: 'btn btn-ghost', type: 'button', onClick: giveUp }, 'סיום');
 
@@ -152,7 +152,10 @@ export function run(ctx) {
       cells[row][col].classList.remove('is-hint');
       cells[row][col].classList.add('is-found');
     });
-    chips.get(word).classList.add('is-found');
+    const clue = clues.get(word);
+    clue.classList.remove('is-hint');
+    clue.classList.add('is-found');
+    clue.append(' ← ', h('strong', {}, bdi(word.pair.term)));
     report();
   }
 
@@ -179,6 +182,8 @@ export function run(ctx) {
     word.hinted = true;
     const { row, col } = word.cells[0];
     cells[row][col].classList.add('is-hint');
+    clues.get(word).classList.add('is-hint');
+    clues.get(word).scrollIntoView({ block: 'nearest' });
   }
 
   function giveUp() {
@@ -237,7 +242,7 @@ export function run(ctx) {
   });
 
   ctx.root.append(
-    h('p', { class: 'game-hint' }, 'יש לגרור על המילה, או להקיש על האות הראשונה ועל האחרונה'),
+    h('p', { class: 'game-hint' }, 'יש למצוא את המילה של כל הגדרה: גרירה, או הקשה על שני הקצוות'),
     list,
     board,
     h('div', { class: 'row' }, hintButton, giveUpButton),
