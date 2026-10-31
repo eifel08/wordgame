@@ -6,7 +6,8 @@ Offline-first Hebrew PWA for building vocabulary activities and playing them as 
 
 | Game | How it plays |
 | --- | --- |
-| התאמת זוגות (Matching Pairs) | Memory game: flip cards to pair each term with its definition (up to 8 pairs per round) |
+| זיכרון (Memory) | Flip cards to pair each term with its definition (up to 8 pairs per round) |
+| התאמת זוגות (Matching Pairs) | Connect terms and definitions across two columns by drawing a line or tapping both (up to 8 pairs per round) |
 | חידון (Quiz) | Multiple choice: pick the right definition out of up to 4 options |
 | כרטיסיות (Flashcards) | Flip, swipe and mark what you know |
 | ערבוב אותיות (Word Scramble) | Rebuild the term from shuffled letters, with hints; keeps niqqud attached to its letter |

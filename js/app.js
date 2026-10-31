@@ -1,7 +1,8 @@
 // מילימשחק (Wordgame). Created by Eitan Feldman.
 import * as store from './store.js';
 import { h, bdi, confirmDialog, formatTime, toast } from './ui.js';
-import * as matching from './games/matching.js';
+import * as memory from './games/memory.js';
+import * as matchup from './games/matchup.js';
 import * as quiz from './games/quiz.js';
 import * as flashcards from './games/flashcards.js';
 import * as scramble from './games/scramble.js';
@@ -11,7 +12,8 @@ import * as wordsearch from './games/wordsearch.js';
 const APP_NAME = 'מילימשחק';
 
 const GAMES = {
-  matching: { ...matching, title: 'התאמת זוגות', icon: '🧩', description: 'משחק זיכרון של מושגים והגדרות' },
+  memory: { ...memory, title: 'זיכרון', icon: '🧠', description: 'הפיכת קלפים ומציאת הזוגות' },
+  matchup: { ...matchup, title: 'התאמת זוגות', icon: '🧩', description: 'חיבור כל מושג להגדרה שלו' },
   quiz: { ...quiz, title: 'חידון', icon: '❓', description: 'שאלות רב-ברירה' },
   flashcards: { ...flashcards, title: 'כרטיסיות', icon: '🃏', description: 'לימוד וחזרה בקצב אישי' },
   scramble: { ...scramble, title: 'ערבוב אותיות', icon: '🔤', description: 'סידור האותיות למילה הנכונה' },

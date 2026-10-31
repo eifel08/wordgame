@@ -1,5 +1,5 @@
 // Bump CACHE whenever any file in ASSETS changes, so installed apps pick up the new version.
-const CACHE = 'wordwall-v5';
+const CACHE = 'wordwall-v6';
 
 const ASSETS = [
   './',
@@ -9,7 +9,8 @@ const ASSETS = [
   'js/app.js',
   'js/store.js',
   'js/ui.js',
-  'js/games/matching.js',
+  'js/games/memory.js',
+  'js/games/matchup.js',
   'js/games/quiz.js',
   'js/games/flashcards.js',
   'js/games/scramble.js',

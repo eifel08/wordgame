@@ -37,7 +37,15 @@ function load() {
   try {
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed.activities)) throw new Error('bad shape');
-    return { best: {}, prefs: {}, ...parsed };
+    const loaded = { best: {}, prefs: {}, ...parsed };
+    // The Memory game used to be called 'matching', so its saved scores move to the new id.
+    for (const scores of Object.values(loaded.best)) {
+      if ('matching' in scores) {
+        scores.memory = scores.matching;
+        delete scores.matching;
+      }
+    }
+    return loaded;
   } catch {
     // Keep the unreadable data so it can be recovered by hand instead of overwriting it.
     try { localStorage.setItem(CORRUPT_KEY, raw); } catch { /* best effort */ }

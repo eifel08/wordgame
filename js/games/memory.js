@@ -1,4 +1,4 @@
-// Matching Pairs: a memory game. Flip two cards to find a term and its definition.
+// Memory: flip two cards at a time to find a term and its definition.
 import { h, bdi, shuffle, uniquePairs } from '../ui.js';
 
 const MAX_PAIRS = 8;

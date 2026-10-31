@@ -294,7 +294,7 @@ textarea.input { resize: vertical; }
   overflow-wrap: anywhere;
 }
 
-/* Matching pairs */
+/* Memory */
 
 .memory-grid { --columns: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .memory-small { --columns: 2; }
@@ -478,6 +478,48 @@ textarea.input { resize: vertical; }
 .wheel-panel .prompt { padding: 14px 16px; }
 .wheel-answer { margin-top: 4px; color: var(--muted); font-size: 1.1rem; font-weight: 600; }
 
+/* Matching pairs */
+
+.pairs-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 44px; /* Leaves room to see the lines between the columns. */
+}
+
+.pairs-column { display: flex; flex-direction: column; gap: 8px; }
+.pairs-heading { margin: 0; color: var(--muted); font-size: 0.85rem; font-weight: 600; text-align: center; }
+
+.pairs-item {
+  flex: 1;
+  min-height: 52px;
+  padding: 8px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  font-size: 0.95rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  /* Vertical swipes still scroll a long list; sideways ones draw the line. */
+  touch-action: pan-y;
+}
+
+.pairs-item.is-selected { border-color: var(--primary); background: var(--surface-2); }
+.pairs-item.is-matched, .pairs-item:disabled { border-color: var(--success); background: var(--success-soft); color: var(--success); }
+.pairs-item.is-wrong { border-color: var(--danger); background: var(--danger-soft); color: var(--danger); animation: shake 0.35s; }
+
+.pairs-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.pairs-line { stroke: var(--success); stroke-linecap: round; stroke-width: 3; }
+.pairs-line.is-live { stroke: var(--primary); }
+
 /* Word search */
 
 .search-list {
@@ -549,11 +591,26 @@ textarea.input { resize: vertical; }
 /* Footer */
 
 .credit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 12px;
   padding: 4px 16px calc(8px + env(safe-area-inset-bottom));
   color: var(--muted);
   font-size: 0.75rem;
   text-align: center;
 }
+
+.coffee-link {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.coffee-link:hover { color: var(--text); border-color: var(--accent); }
 
 /* Overlays */
 
