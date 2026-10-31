@@ -6,23 +6,6 @@ const CORRUPT_KEY = 'wordwall.corrupt';
 
 export const LIMITS = { title: 120, term: 120, definition: 300, pairs: 200 };
 
-const SAMPLES = [
-  {
-    title: 'אנגלית: בעלי חיים',
-    pairs: [
-      ['dog', 'כלב'], ['cat', 'חתול'], ['horse', 'סוס'], ['bird', 'ציפור'],
-      ['fish', 'דג'], ['lion', 'אריה'], ['elephant', 'פיל'], ['monkey', 'קוף'],
-    ],
-  },
-  {
-    title: 'בירות העולם',
-    pairs: [
-      ['צרפת', 'פריז'], ['יפן', 'טוקיו'], ['איטליה', 'רומא'], ['ספרד', 'מדריד'],
-      ['מצרים', 'קהיר'], ['יוון', 'אתונה'],
-    ],
-  },
-];
-
 const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
 
 function buildActivity(title, pairs) {
@@ -36,13 +19,7 @@ function buildActivity(title, pairs) {
   };
 }
 
-const seedState = () => ({
-  version: 1,
-  activities: SAMPLES.map(({ title, pairs }) =>
-    buildActivity(title, pairs.map(([term, definition]) => ({ term, definition })))),
-  best: {},
-  prefs: {},
-});
+const emptyState = () => ({ version: 1, activities: [], best: {}, prefs: {} });
 
 export let available = true;
 let state = load();
@@ -53,13 +30,9 @@ function load() {
     raw = localStorage.getItem(KEY);
   } catch {
     available = false;
-    return seedState();
+    return emptyState();
   }
-  if (raw === null) {
-    const seeded = seedState();
-    write(seeded);
-    return seeded;
-  }
+  if (raw === null) return emptyState();
   try {
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed.activities)) throw new Error('bad shape');
@@ -67,7 +40,7 @@ function load() {
   } catch {
     // Keep the unreadable data so it can be recovered by hand instead of overwriting it.
     try { localStorage.setItem(CORRUPT_KEY, raw); } catch { /* best effort */ }
-    return { version: 1, activities: [], best: {}, prefs: {} };
+    return emptyState();
   }
 }
 
