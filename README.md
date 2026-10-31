@@ -10,6 +10,8 @@ Offline-first Hebrew PWA for building vocabulary activities and playing them as 
 | חידון (Quiz) | Multiple choice: pick the right definition out of up to 4 options |
 | כרטיסיות (Flashcards) | Flip, swipe and mark what you know |
 | ערבוב אותיות (Word Scramble) | Rebuild the term from shuffled letters, with hints; keeps niqqud attached to its letter |
+| גלגל המזל (Wheel of Fortune) | Spin to draw a random term, recall the definition, then rate yourself (up to 12 terms per round) |
+| תפזורת (Word Search) | Drag across hidden terms, or tap both ends of a word (up to 8 words of 2–12 letters per round) |
 
 Every game has a results screen, per-activity best scores and a "practice my mistakes" round where it applies.
 

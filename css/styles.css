@@ -438,6 +438,99 @@ textarea.input { resize: vertical; }
   75% { transform: translateX(-3px); }
 }
 
+/* Wheel of fortune */
+
+.wheel {
+  position: relative;
+  width: min(100%, 46dvh, 380px);
+  margin-inline: auto;
+  overflow: hidden;
+  padding-top: 14px;
+}
+
+.wheel-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform 4s cubic-bezier(0.12, 0.7, 0.1, 1);
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 1;
+  width: 0;
+  height: 0;
+  margin-left: -13px;
+  border-top: 28px solid var(--danger);
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
+}
+
+.wheel-panel { display: flex; flex-direction: column; gap: 10px; }
+.wheel-panel .prompt { padding: 14px 16px; }
+.wheel-answer { margin-top: 4px; color: var(--muted); font-size: 1.1rem; font-weight: 600; }
+
+/* Word search */
+
+.search-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.search-chip {
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  font-size: 0.95rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.search-chip.is-found { background: var(--success-soft); color: var(--success); text-decoration: line-through; }
+
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--size), minmax(0, 1fr));
+  width: min(100%, 480px, 62dvh);
+  margin-inline: auto;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  /* Dragging selects letters here, so the page must not scroll or zoom under the finger. */
+  touch-action: none;
+}
+
+.search-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: calc(min(100vw, 480px) / var(--size) * 0.52);
+  font-weight: 700;
+  line-height: 1;
+  touch-action: none;
+}
+
+.search-cell.is-found { background: var(--success-soft); color: var(--success); }
+.search-cell.is-hint { background: var(--accent); color: #1e1b3a; }
+.search-cell.is-selecting { background: var(--primary); color: var(--primary-text); }
+.search-cell.is-miss { background: var(--danger-soft); color: var(--danger); }
+
 /* Results */
 
 .results { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
@@ -492,7 +585,7 @@ textarea.input { resize: vertical; }
 @media (min-width: 560px) {
   .pair-fields { grid-template-columns: 1fr 1.4fr; }
   .memory-grid, .memory-small { --columns: 4; }
-  .game-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .game-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -4,12 +4,16 @@ import * as matching from './games/matching.js';
 import * as quiz from './games/quiz.js';
 import * as flashcards from './games/flashcards.js';
 import * as scramble from './games/scramble.js';
+import * as wheel from './games/wheel.js';
+import * as wordsearch from './games/wordsearch.js';
 
 const GAMES = {
   matching: { ...matching, title: 'התאמת זוגות', icon: '🧩', description: 'משחק זיכרון של מושגים והגדרות' },
   quiz: { ...quiz, title: 'חידון', icon: '❓', description: 'שאלות רב-ברירה' },
   flashcards: { ...flashcards, title: 'כרטיסיות', icon: '🃏', description: 'לימוד וחזרה בקצב אישי' },
   scramble: { ...scramble, title: 'ערבוב אותיות', icon: '🔤', description: 'סידור האותיות למילה הנכונה' },
+  wheel: { ...wheel, title: 'גלגל המזל', icon: '🎡', description: 'סיבוב הגלגל ובדיקה עצמית' },
+  wordsearch: { ...wordsearch, title: 'תפזורת', icon: '🔍', description: 'חיפוש המילים החבויות בלוח' },
 };
 
 const app = document.getElementById('app');
